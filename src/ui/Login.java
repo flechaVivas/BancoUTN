@@ -7,11 +7,13 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -25,8 +27,19 @@ public class Login extends JFrame {
 	JTextField user = new JTextField();
 	JPasswordField passwd = new JPasswordField();
 	JButton boton = new JButton();
+	JLabel saludo = new JLabel();
+	ArrayList<User>usuarios = new ArrayList<User>();
 	
 	public Login() {
+		User facundo = new User();
+		facundo.setUser("facundo");
+		facundo.setPassword("Luisina05");
+		usuarios.add(facundo);
+		
+		User admin = new User();
+		admin.setUser("admin");
+		admin.setPassword("admin");
+		usuarios.add(admin);
 		
 		this.setSize(500, 500);
 		this.setLocationRelativeTo(null); 
@@ -103,9 +116,16 @@ public class Login extends JFrame {
 		boton.setBounds(50, 270, 120, 25);
 		boton.setText("Aceptar");
 		boton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		boton.setMnemonic('\n');
 		
 		panel.add(boton);
 
+		
+		saludo.setBounds(50, 305, 220, 30);
+		saludo.setForeground(Color.green);
+		saludo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		panel.add(saludo);
+		
 		accionarBoton();
 		
 	}
@@ -114,31 +134,29 @@ public class Login extends JFrame {
 		
 		boton.addActionListener(new ActionListener() {
 			
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				String usr = user.getText();
-				@SuppressWarnings("deprecation")
-				String pass = passwd.getText();
+				for (User u : usuarios) {
+					if (user.getText().equals(u.getUser()) && passwd.getText().equals(u.getPassword())) {
+						u.setHabilitado(true);
+						
+						
+						
+						if (u.getHabilitado() == true) {
+							//Derivamos al menu
+							System.out.println("ok");
+							saludo.setText("Bienvenido, " + u.getUser());
+						}
+					}
+				}
 				
-				//System.out.println(usr + pass);
-				
-				validarDatos(usr,pass);
-				
+					
 			}
-
-			
 		});
-	
 	}
 
-	protected void validarDatos(String usr, String pass) {
-		
-		for (User u : usuarios) {
-			
-		}
-		
-	}
 	
 	
 	
