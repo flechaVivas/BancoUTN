@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -55,7 +54,9 @@ public class Login extends JFrame {
 	
 	private void iniciarComponentes() {
 		
-		panel.setBackground(new Color(122,108,240)); 
+//		panel.setBackground(new Color(122,108,240)); 
+		panel.setBackground(new Color(63,143,225)); 
+		
 		
 		this.getContentPane().add(panel);
 		
@@ -70,13 +71,11 @@ public class Login extends JFrame {
 	
 	private void colocarLogo() {
 	
-		ImageIcon logo = new ImageIcon("logo-utn.png");
+		ImageIcon logo = new ImageIcon("src/logo-utn.png");
 		
 		//contenedorLogo.setIcon(logo);
 		
-		contenedorLogo.setBounds(50, 10, 200,50);
-		contenedorLogo.setOpaque(true);
-		contenedorLogo.setBackground(Color.WHITE);
+		contenedorLogo.setBounds(50, 10, 220,50);
 		
 		contenedorLogo.setIcon(new ImageIcon(logo.getImage().getScaledInstance(
 				contenedorLogo.getWidth(), contenedorLogo.getHeight(), Image.SCALE_SMOOTH)));
@@ -121,9 +120,8 @@ public class Login extends JFrame {
 		panel.add(boton);
 
 		
-		saludo.setBounds(50, 305, 220, 30);
-		saludo.setForeground(Color.green);
-		saludo.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		saludo.setBounds(50, 305, 300, 30);
+		saludo.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		panel.add(saludo);
 		
 		accionarBoton();
@@ -138,19 +136,37 @@ public class Login extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				for (User u : usuarios) {
-					if (user.getText().equals(u.getUser()) && passwd.getText().equals(u.getPassword())) {
-						u.setHabilitado(true);
-						
-						
-						
-						if (u.getHabilitado() == true) {
-							//Derivamos al menu
-							System.out.println("ok");
-							saludo.setText("Bienvenido, " + u.getUser());
+				try {
+					for (User u : usuarios) {
+						if (user.getText().equals(u.getUser()) && passwd.getText().equals(u.getPassword())) {
+							u.setHabilitado(true);
+							
+							if (u.getHabilitado() == true) {
+								//Derivamos al menu
+//								System.out.println("ok");
+								saludo.setText("Bienvenido, " + u.getUser());
+								saludo.setForeground(Color.green);
+								
+								//panel.setVisible(false);							
+							}
 						}
+						
+						else {
+							int cont = 0;
+							if(u.getHabilitado() == false) {
+								
+								saludo.setText("Usuario y/o contraseña inválidos");
+								saludo.setForeground(Color.red);
+								
+							}
+						}
+						
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+				
+				
 				
 					
 			}
