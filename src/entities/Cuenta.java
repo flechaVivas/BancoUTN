@@ -2,13 +2,13 @@ package entities;
 
 public class Cuenta {
 
-	private int nroCuenta;
+	private String nroCuenta;
 	private double saldo;
 	
-	public int getNroCuenta() {
+	public String getNroCuenta() {
 		return nroCuenta;
 	}
-	public void setNroCuenta(int nroCuenta) {
+	public void setNroCuenta(String nroCuenta) {
 		this.nroCuenta = nroCuenta;
 	}
 	public double getSaldo() {

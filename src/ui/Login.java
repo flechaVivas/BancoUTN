@@ -27,17 +27,22 @@ public class Login extends JFrame {
 	JPasswordField passwd = new JPasswordField();
 	JButton boton = new JButton();
 	JLabel saludo = new JLabel();
-	ArrayList<User>usuarios = new ArrayList<User>();
+	ArrayList<Cliente>usuarios = new ArrayList<Cliente>();
 	
 	public Login() {
-		User facundo = new User();
+		Cliente facundo = new Cliente();
 		facundo.setUser("facundo");
 		facundo.setPassword("Luisina05");
 		usuarios.add(facundo);
 		
-		User admin = new User();
+		Cliente admin = new Cliente();
 		admin.setUser("admin");
 		admin.setPassword("admin");
+		Cuenta cuenta = new Cuenta();
+		cuenta.setNroCuenta("8891262233");
+		cuenta.setSaldo(189000);
+		
+		admin.setCuenta(cuenta);
 		usuarios.add(admin);
 		
 		this.setSize(500, 500);
@@ -137,7 +142,7 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					for (User u : usuarios) {
+					for (Cliente u : usuarios) {
 						if (user.getText().equals(u.getUser()) && passwd.getText().equals(u.getPassword())) {
 							u.setHabilitado(true);
 							
@@ -147,7 +152,10 @@ public class Login extends JFrame {
 								saludo.setText("Bienvenido, " + u.getUser());
 								saludo.setForeground(Color.green);
 								
-								//panel.setVisible(false);							
+								panel.setVisible(false);
+								dispose(); // Destroys JFrame object
+								new Menu().start(u);
+								
 							}
 						}
 						
