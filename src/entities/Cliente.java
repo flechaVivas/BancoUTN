@@ -7,7 +7,6 @@ public class Cliente {
 	private Boolean habilitado;
 	private CuentaCorriente cc;
 	private CajaDeAhorro ca;
-	private Cuenta cuenta;
 	
 	public Boolean getHabilitado() {
 		return habilitado;
@@ -39,13 +38,9 @@ public class Cliente {
 	public void setCa(CajaDeAhorro ca) {
 		this.ca = ca;
 	}
+	
+	
 	public Cliente() {
 		this.setHabilitado(false);
-	}
-	public Cuenta getCuenta() {
-		return cuenta;
-	}
-	public void setCuenta(Cuenta cuenta) {
-		this.cuenta = cuenta;
 	}
 }

@@ -18,4 +18,9 @@ public class Cuenta {
 		this.saldo = saldo;
 	}
 	
+	public Cuenta() {
+		this.setNroCuenta(nroCuenta);
+		this.setSaldo(saldo);
+	}
+	
 }

@@ -28,35 +28,50 @@ public class Login extends JFrame {
 	JButton boton = new JButton();
 	JLabel saludo = new JLabel();
 	ArrayList<Cliente>usuarios = new ArrayList<Cliente>();
-	
+	int cont = -1;
+	Cliente admin = new Cliente();
+	Cliente facundo = new Cliente();
 	public Login() {
-		Cliente facundo = new Cliente();
-		facundo.setUser("facundo");
-		facundo.setPassword("Luisina05");
-		usuarios.add(facundo);
 		
-		Cliente admin = new Cliente();
-		admin.setUser("admin");
-		admin.setPassword("admin");
-		Cuenta cuenta = new Cuenta();
-		cuenta.setNroCuenta("8891262233");
-		cuenta.setSaldo(189000);
-		
-		admin.setCuenta(cuenta);
-		usuarios.add(admin);
-		
+		definicionClientes();
+
 		this.setSize(500, 500);
-		this.setLocationRelativeTo(null); 
-		
+		this.setLocationRelativeTo(null); 	
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
 		this.setTitle("Login Page");
-		
 		this.setMinimumSize(new Dimension(200,200));
 		
 		iniciarComponentes();
 	}
 	
+	private void definicionClientes() {
+		
+		facundo.setUser("facundo");
+		facundo.setPassword("Luisina05");
+		CajaDeAhorro ca1 = new CajaDeAhorro();
+		ca1.setNroCuenta("11899212");
+		ca1.setSaldo(9000.50);
+		CuentaCorriente cc1 = new CuentaCorriente();
+		cc1.setNroCuenta("000027812");
+		cc1.setSaldo(315506);
+		facundo.setCa(ca1);
+		facundo.setCc(cc1);
+	
+		admin.setUser("admin");
+		admin.setPassword("admin");
+		CajaDeAhorro ca2 = new CajaDeAhorro();
+		ca2.setNroCuenta("8891262233");
+		ca2.setSaldo(189000.50);
+		CuentaCorriente cc2 = new CuentaCorriente();
+		cc2.setNroCuenta("789234348");
+		cc2.setSaldo(2010);
+		admin.setCa(ca2);
+		admin.setCc(cc2);
+		
+		usuarios.add(facundo);
+		usuarios.add(admin);
+	}
+
 	private void iniciarComponentes() {
 		
 //		panel.setBackground(new Color(122,108,240)); 
@@ -125,7 +140,7 @@ public class Login extends JFrame {
 		panel.add(boton);
 
 		
-		saludo.setBounds(50, 305, 300, 30);
+		saludo.setBounds(50, 305, 400, 30);
 		saludo.setFont(new Font("Times New Roman", Font.BOLD, 16));
 		panel.add(saludo);
 		
@@ -142,6 +157,7 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
+					
 					for (Cliente u : usuarios) {
 						if (user.getText().equals(u.getUser()) && passwd.getText().equals(u.getPassword())) {
 							u.setHabilitado(true);
@@ -149,8 +165,8 @@ public class Login extends JFrame {
 							if (u.getHabilitado() == true) {
 								//Derivamos al menu
 //								System.out.println("ok");
-								saludo.setText("Bienvenido, " + u.getUser());
-								saludo.setForeground(Color.green);
+//								saludo.setText("Bienvenido, " + u.getUser());
+//								saludo.setForeground(Color.green);
 								
 								panel.setVisible(false);
 								dispose(); // Destroys JFrame object
@@ -160,11 +176,20 @@ public class Login extends JFrame {
 						}
 						
 						else {
-							int cont = 0;
+							
 							if(u.getHabilitado() == false) {
 								
 								saludo.setText("Usuario y/o contraseña inválidos");
 								saludo.setForeground(Color.red);
+								cont=cont+1;
+								
+								if (cont > 3) {
+									saludo.setText("Demasiados intentos fallidos");
+									user.setEnabled(false);
+									passwd.setEnabled(false);
+									boton.setEnabled(false);
+									
+								}
 								
 							}
 						}
