@@ -19,6 +19,10 @@ import javax.swing.JTextField;
 
 public class Login extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel panel = new JPanel();
 	JLabel contenedorLogo = new JLabel();
 	JLabel usuario = new JLabel();

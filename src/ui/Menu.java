@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -89,11 +90,6 @@ public class Menu extends JFrame  {
 		colocarBotonSalir();
 		colocarCuentas(u);
 		
-		agregarComponentes();
-	
-	}
-	
-	private void agregarComponentes() {
 		panelIzq.add(contenedorLogo);
 		panelIzq.add(cCorriente);
 		panelIzq.add(cajaAhorro);
@@ -108,27 +104,20 @@ public class Menu extends JFrame  {
 		panelDer.add(ingresaMonto);
 		panelDer.add(monto);
 		panelDer.add(botonTransferir);
+	
 	}
-
+	
 	private void colocarLogo() {
-		
 		ImageIcon logo = new ImageIcon("src/logo-utn.png");
-		
 		contenedorLogo.setBounds(30, 15, 220,50);
-		
 		contenedorLogo.setIcon(new ImageIcon(logo.getImage().getScaledInstance(
 				contenedorLogo.getWidth(), contenedorLogo.getHeight(), Image.SCALE_SMOOTH)));
-		
-		
 	}
 	
 	private void colocarBotonSalir() {
-		
 		salir.setBounds(20, 400, 180, 30);
 		salir.setText("Salir");
-		
 		salir.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(0);	
@@ -169,15 +158,13 @@ public class Menu extends JFrame  {
 	}
 	
 	private void limpiarComponentes() {
-		
 		for (int i = 0; i < panelDer.getComponentCount(); i++) {
 			panelDer.getComponent(i).setVisible(false);	
 		}
+		infoCuenta.setVisible(true);
 		
 	}
-	
-	
-	
+
 	private void colocarCuentas(Cliente u) {
 	
 		cCorriente.setText("CuentaCorriente");		
@@ -191,88 +178,74 @@ public class Menu extends JFrame  {
 		grupoRadioBotones.add(cajaAhorro);
 		grupoRadioBotones.add(cCorriente);
 		
+		colocarBotones();
+		
 		// Eventos
-		cCorriente.addMouseListener(new MouseListener() {
+		
+		cCorriente.addActionListener(new ActionListener() {
 			
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			
 				limpiarComponentes();
 				
-				colocarBotones();
-
 				colocarDatosCuenta(u,"cc");
 				
-				eventoSaldo(u,"cc");
+				System.out.println("corriente");
 				
+				eventoSaldo(u,"cc");
 				eventoTransf(u,"cc");
 				
 			}
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
 		});
-		cajaAhorro.addMouseListener(new MouseListener() {
+		
+		cajaAhorro.addActionListener(new ActionListener() {
 			
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {
 				
 				limpiarComponentes();
-				
-				colocarBotones();
 
 				colocarDatosCuenta(u,"ca");
+				System.out.println("ahorro");
 				
 				eventoSaldo(u,"ca");
-				
 				eventoTransf(u,"ca");
-			}
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
 			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
 			}
 		});
 		
 	}
 	private void eventoSaldo(Cliente u, String c) {
+		
 		botonSaldo.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				
 				limpiarComponentes();
+				
 				informaSaldo.setBounds(60, 90, 400, 20);
 				informaSaldo.setForeground(Color.WHITE);
+				
 				if (c=="cc") {
-					informaSaldo.setVisible(true);
 					informaSaldo.setText("Su saldo actual es: "+u.getCc().getSaldo());
-				}
-				if (c=="ca") {
 					informaSaldo.setVisible(true);
+					
+					System.out.println("saldo corriente");
+					
+					
+				}
+				else if (c=="ca") {
 					informaSaldo.setText("Su saldo actual es: "+u.getCa().getSaldo());
+					informaSaldo.setVisible(true);
+					
+					System.out.println("saldo ahorro");
+					
 				}
 			}
+			
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 			}
@@ -284,6 +257,7 @@ public class Menu extends JFrame  {
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 			}
+			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 			}
@@ -316,11 +290,10 @@ public class Menu extends JFrame  {
 					monto.setVisible(true);
 					botonTransferir.setVisible(true);
 						
-					botonTransferir.addMouseListener(new MouseListener() {
-							
-					@Override
-						public void mouseClicked(MouseEvent arg0) {
+					botonTransferir.addActionListener(new ActionListener() {
 						
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
 							try {
 								
 								if (Double.parseDouble(monto.getText()) > 0) {
@@ -339,19 +312,7 @@ public class Menu extends JFrame  {
 							catch (Exception e) {
 								JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
 							}
-						}
-
-						@Override
-						public void mouseEntered(MouseEvent arg0) {
-						}
-						@Override
-						public void mouseExited(MouseEvent arg0) {
-						}
-						@Override
-						public void mousePressed(MouseEvent arg0) {
-						}
-						@Override
-						public void mouseReleased(MouseEvent arg0) {
+							
 						}
 					});
 					
@@ -362,11 +323,10 @@ public class Menu extends JFrame  {
 					monto.setVisible(true);
 					botonTransferir.setVisible(true);
 						
-					botonTransferir.addMouseListener(new MouseListener() {
-							
-					@Override
-						public void mouseClicked(MouseEvent arg0) {
+					botonTransferir.addActionListener(new ActionListener() {
 						
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
 							try {
 								
 								if (Double.parseDouble(monto.getText()) > 0) {
@@ -376,6 +336,7 @@ public class Menu extends JFrame  {
 										
 									else if (JOptionPane.showConfirmDialog(null, "¿Desea transferir $"+monto.getText()+ " a su Cuenta Corriente?") == 1) {
 										u.getCa().setSaldo(u.getCa().getSaldo() - Double.parseDouble(monto.getText()));
+										
 									}
 								}
 								else {
@@ -387,19 +348,9 @@ public class Menu extends JFrame  {
 							}
 							
 						}
-						@Override
-						public void mouseEntered(MouseEvent arg0) {
-						}
-						@Override
-						public void mouseExited(MouseEvent arg0) {
-						}
-						@Override
-						public void mousePressed(MouseEvent arg0) {
-						}
-						@Override
-						public void mouseReleased(MouseEvent arg0) {
-						}
 					});
+					
+					
 				}
 				
 			}
