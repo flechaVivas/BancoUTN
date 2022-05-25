@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -61,8 +62,8 @@ public class Login extends JFrame {
 		facundo.setCa(ca1);
 		facundo.setCc(cc1);
 	
-		admin.setUser("admin");
-		admin.setPassword("admin");
+		admin.setUser("");
+		admin.setPassword("");
 		CajaDeAhorro ca2 = new CajaDeAhorro();
 		ca2.setNroCuenta("8891262233");
 		ca2.setSaldo(189000.50);
@@ -97,8 +98,6 @@ public class Login extends JFrame {
 	
 		ImageIcon logo = new ImageIcon("src/logo-utn.png");
 		
-		//contenedorLogo.setIcon(logo);
-		
 		contenedorLogo.setBounds(50, 10, 220,50);
 		
 		contenedorLogo.setIcon(new ImageIcon(logo.getImage().getScaledInstance(
@@ -113,7 +112,6 @@ public class Login extends JFrame {
 		usuario.setBounds(50, 110, 130, 30);
 		usuario.setForeground(Color.white);
 		usuario.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		//usuario.setHorizontalAlignment(SwingConstants.CENTER); 
 		
 		
 		contrasenia.setText("Contraseña: ");
@@ -200,7 +198,7 @@ public class Login extends JFrame {
 						
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 				
 				
