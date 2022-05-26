@@ -454,7 +454,7 @@ public class Menu extends JFrame implements ActionListener  {
 					}
 				} 
 				catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
+					JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
 				}
 			}
 			
