@@ -22,8 +22,20 @@ import javax.swing.JTextField;
 import entities.*;
 
 
-public class Menu extends JFrame  {
+public class Menu extends JFrame implements ActionListener  {
 	
+	Cliente u;
+	
+	public Cliente getU() {
+		return u;
+	}
+
+
+	public void setU(Cliente u) {
+		this.u = u;
+	}
+
+
 	JPanel panelMenu = new JPanel();
 	
 	JPanel panelIzq = new JPanel();
@@ -49,7 +61,12 @@ public class Menu extends JFrame  {
 	JTextField monto = new JTextField();
 	JButton botonTransferir = new JButton();
 	
-	public void start(Cliente u) {
+	public Menu(Cliente u) {
+		this.setU(u);
+	}
+	
+	
+	public void start() {
 		
 		this.setSize(700, 500);
 		this.setLocationRelativeTo(null); 
@@ -89,6 +106,7 @@ public class Menu extends JFrame  {
 		colocarBotonSalir();
 		colocarBotonCerrarSesion();
 		colocarCuentas(u);
+		colocarBotones();
 		
 		panelIzq.add(contenedorLogo);
 		panelIzq.add(cCorriente);
@@ -150,7 +168,20 @@ public class Menu extends JFrame  {
 		botonTransf.setText("Transferencia");
 		botonExt.setText("Extraccion");
 		botonDep.setText("Depósito");
-				
+		
+		botonSaldo.setVisible(false);
+		botonTransf.setVisible(false);
+		botonExt.setVisible(false);
+		botonDep.setVisible(false);
+		
+		
+		botonSaldo.addActionListener(this);
+		botonTransf.addActionListener(this);
+		botonExt.addActionListener(this);
+		botonDep.addActionListener(this);
+		
+		botonTransferir.addActionListener(this);
+		
 		grupoOpciones.add(botonSaldo);
 		grupoOpciones.add(botonTransf);
 		grupoOpciones.add(botonExt);
@@ -192,204 +223,264 @@ public class Menu extends JFrame  {
 		grupoRadioBotones.add(cajaAhorro);
 		grupoRadioBotones.add(cCorriente);
 		
+		cCorriente.addActionListener(this);
+		cajaAhorro.addActionListener(this);
+		
+		botonSaldo.setVisible(false);
+		botonTransf.setVisible(false);
+		botonExt.setVisible(false);
+		botonDep.setVisible(false);
+		
 		
 		
 		// Eventos
 		
-		cCorriente.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-			
-				limpiarComponentes();
-				
-				colocarBotones();
-				
-				colocarDatosCuenta(u,"cc");
-				
-				System.out.println("corriente");
-				
-				eventoSaldo(u,"cc");
-				eventoTransf(u,"cc");
-				eventoExtraccion(u,"cc");
-				
-				
-			}
-		});
+//		cCorriente.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				
+//				limpiarComponentes();
+//				
+//				colocarBotones();
+//				
+//				colocarDatosCuenta(u,"cc");
+//				
+//				System.out.println(cCorriente.isSelected() && !cajaAhorro.isSelected());
+//				
+//				if (cCorriente.isSelected() && !cajaAhorro.isSelected()) {
+//					
+//					if (arg0.getSource().equals(cCorriente)) {
+//						eventoSaldo(u,"cc");
+//						eventoTransf(u,"cc");
+//						eventoExtraccion(u,"cc");
+//						System.out.println("corriente");
+//					}
+//				}
+//				
+//		
+//				
+//			}
+//		});
 		
-		cajaAhorro.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				limpiarComponentes();
-				
-				colocarBotones();
-
-				colocarDatosCuenta(u,"ca");
-				System.out.println("ahorro");
-				
-				eventoSaldo(u,"ca");
-				eventoTransf(u,"ca");
-				eventoExtraccion(u,"ca");
-				
-			}
-		});
+		
+		
+//		
+//		cajaAhorro.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				
+//				
+//				limpiarComponentes();
+//				
+//				colocarBotones();
+//
+//				colocarDatosCuenta(u,"ca");
+//				
+//				
+//				if (cajaAhorro.isSelected() && !cCorriente.isSelected()) {
+//					if (arg0.getSource().equals(cajaAhorro)) {
+//						eventoSaldo(u,"ca");
+//						eventoTransf(u,"ca");
+//						eventoExtraccion(u,"ca");
+//						System.out.println("ahorro");
+//					}
+//				}
+//				
+//			}
+//		});
+//		
+//		if(cCorriente.isSelected()) {
+//			eventoSaldo(u, "cc");
+//		}
+		
+		
 		
 	}
 	
-
-	private void eventoSaldo(Cliente u, String c) {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		
-		botonSaldo.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-				limpiarComponentes();
-				
+		limpiarComponentes();
+		
+		if (e.getSource().equals(cCorriente)) {
+			limpiarComponentes();
+			botonSaldo.setVisible(true);
+			botonTransf.setVisible(true);
+			botonExt.setVisible(true);
+			botonDep.setVisible(true);
+			colocarDatosCuenta(u,"cc");
+		}
+		
+		
+		if (e.getSource().equals(cajaAhorro)) {
+			limpiarComponentes();
+			botonSaldo.setVisible(true);
+			botonTransf.setVisible(true);
+			botonExt.setVisible(true);
+			botonDep.setVisible(true);
+			colocarDatosCuenta(u,"ca");
+					
+		}
+		
+		
+		if (e.getSource().equals(botonSaldo)) {
+			limpiarComponentes();
+			if (cCorriente.isSelected()) {
 				informaSaldo.setBounds(60, 90, 400, 20);
 				informaSaldo.setForeground(Color.WHITE);
-				
-				if (c=="cc") {
-					informaSaldo.setText("Su saldo actual es: "+u.getCc().getSaldo());
-					informaSaldo.setVisible(true);
-					
-					System.out.println("saldo corriente");
-					
-					
-				}
-				else if (c=="ca") {
-					informaSaldo.setText("Su saldo actual es: "+u.getCa().getSaldo());
-					informaSaldo.setVisible(true);
-					
-					System.out.println("saldo ahorro");
-					
-				}
+				informaSaldo.setText("Su saldo actual es: "+u.getCc().getSaldo());
+				informaSaldo.setVisible(true);
 			}
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
+			if (cajaAhorro.isSelected()) {
+				informaSaldo.setBounds(60, 90, 400, 20);
+				informaSaldo.setForeground(Color.WHITE);
+				informaSaldo.setText("Su saldo actual es: "+u.getCa().getSaldo());
+				informaSaldo.setVisible(true);
 			}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-		});
-	}
-	
-
-	private void eventoTransf(Cliente u, String c) {
+		}
 		
-		botonTransf.addActionListener(new ActionListener() {
+		ingresaMonto.setBounds(0,90,270,30);
+		ingresaMonto.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		ingresaMonto.setForeground(Color.WHITE);
+		monto.setBounds(215, 90, 90, 30);
+		monto.setText("0");
+		botonTransferir.setBounds(200, 140, 100, 30);
+		
+		if (e.getSource().equals(botonTransf)) {
+			limpiarComponentes();
+			ingresaMonto.setText("Ingrese monto a transferir: $");
+			botonTransferir.setText("Transferir");
+			ingresaMonto.setVisible(true);
+			monto.setVisible(true);
+			botonTransferir.setVisible(true);
 			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-				limpiarComponentes();
-				
-				ingresaMonto.setBounds(0,90,270,30);
-				ingresaMonto.setText("Ingrese monto a transferir: $");
-				ingresaMonto.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-				ingresaMonto.setForeground(Color.WHITE);
-				monto.setBounds(215, 90, 90, 30);
-				monto.setText("0");
-				
-				botonTransferir.setText("Transferir");
-				botonTransferir.setBounds(200, 140, 100, 30);
-				
-				
-				if (c=="cc") {
-					ingresaMonto.setVisible(true);
-					monto.setVisible(true);
-					botonTransferir.setVisible(true);
+			
+		}
+			
+			
+		if (e.getSource().equals(botonTransferir)) {
+			
+			if (cCorriente.isSelected() && botonTransf.isSelected()) {
+				try {
+					
+					if (validaSaldoPositivo()) {
 						
-					botonTransferir.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent arg0) {
-							try {
-								if (validaSaldoPositivo(u)) {
-									if (Double.parseDouble(monto.getText()) > u.getCc().getSaldo()) {
-										JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
-									}
-									else if (JOptionPane.showConfirmDialog(null, "¿Desea transferir $"+monto.getText()+ " a su Caja de Ahorro?") == 0) {
-										u.getCc().setSaldo(u.getCc().getSaldo() - Double.parseDouble(monto.getText()));
-										u.getCa().setSaldo(u.getCa().getSaldo() + Double.parseDouble(monto.getText()));
-										
-										JOptionPane.showMessageDialog(null, "Dinero enviado con exito");
-										monto.setText("0");
-										
-									}
-									else {
-										JOptionPane.showMessageDialog(null, "Operacion cancelada");
-										monto.setText("0");
-									}
-								}
-								else {
-									JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-								}
-							} 
-							catch (Exception e) {
-								JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-							}
+						if (Double.parseDouble(monto.getText()) > u.getCa().getSaldo()) {
+							JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
 						}
-					});
+							
+						else if (JOptionPane.showConfirmDialog(null, "¿Desea transferir $"+monto.getText()+ " a su Cuenta Corriente?") == 0) {
+							u.getCa().setSaldo(u.getCa().getSaldo() - Double.parseDouble(monto.getText()));
+							u.getCc().setSaldo(u.getCc().getSaldo() + Double.parseDouble(monto.getText()));
+							
+							JOptionPane.showMessageDialog(null, "Dinero enviado con exito");
+							monto.setText("0");
+							
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Operacion cancelada");
+							monto.setText("0");
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+					}
+				} 
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage());
 				}
 				
-				if (c=="ca") {
-					ingresaMonto.setVisible(true);
-					monto.setVisible(true);
-					botonTransferir.setVisible(true);
-						
-					botonTransferir.addActionListener(new ActionListener() {
-						
-						@Override
-						public void actionPerformed(ActionEvent arg0) {
-							try {
-								
-								if (validaSaldoPositivo(u)) {
-									
-									if (Double.parseDouble(monto.getText()) > u.getCa().getSaldo()) {
-										JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
-									}
-										
-									else if (JOptionPane.showConfirmDialog(null, "¿Desea transferir $"+monto.getText()+ " a su Cuenta Corriente?") == 0) {
-										u.getCa().setSaldo(u.getCa().getSaldo() - Double.parseDouble(monto.getText()));
-										u.getCc().setSaldo(u.getCc().getSaldo() + Double.parseDouble(monto.getText()));
-										
-										JOptionPane.showMessageDialog(null, "Dinero enviado con exito");
-										monto.setText("0");
-										
-									}
-									else {
-										JOptionPane.showMessageDialog(null, "Operacion cancelada");
-										monto.setText("0");
-									}
-								}
-								else {
-									JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-								}
-							} 
-							catch (Exception e) {
-								JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-							}
-						}
-					});
-				}
+				
 			}
-		});
+			
+		if (cajaAhorro.isSelected() && botonTransf.isSelected()) {	
+			try {
+				
+				if (validaSaldoPositivo()) {
+					
+					if (Double.parseDouble(monto.getText()) > u.getCa().getSaldo()) {
+						JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
+					}
+						
+					else if (JOptionPane.showConfirmDialog(null, "¿Desea transferir $"+monto.getText()+ " a su Cuenta Corriente?") == 0) {
+						u.getCa().setSaldo(u.getCa().getSaldo() - Double.parseDouble(monto.getText()));
+						u.getCc().setSaldo(u.getCc().getSaldo() + Double.parseDouble(monto.getText()));
+						
+						JOptionPane.showMessageDialog(null, "Dinero enviado con exito");
+						monto.setText("0");
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Operacion cancelada");
+						monto.setText("0");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+				}
+			} 
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null, ex.getMessage());
+			}
+			
+		}	
+		
+		if (e.getSource().equals(botonExt)) {
+			limpiarComponentes();
+			
+			ingresaMonto.setText("Ingrese monto a extraer:   $");
+			botonTransferir.setText("Extraer");
+			ingresaMonto.setVisible(true);
+			monto.setVisible(true);
+			botonTransferir.setVisible(true);
+			
+			if (cCorriente.isSelected()) {
+				botonTransferir.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							if (validaSaldoPositivo()) {
+								if (Double.parseDouble(monto.getText()) > u.getCc().getSaldo()) {
+									JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
+								}
+								else if (JOptionPane.showConfirmDialog(null, "¿Desea extraer $"+monto.getText()+ "?") == 0) {
+									
+									u.getCc().setSaldo(u.getCc().getSaldo() - Double.parseDouble(monto.getText()));
+									JOptionPane.showMessageDialog(null, "Dinero extraído con exito");
+									monto.setText("0");
+									
+								}
+								else {
+									JOptionPane.showMessageDialog(null, "Operacion cancelada");
+									monto.setText("0");
+								}
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+							}
+						} 
+						catch (Exception e) {
+							JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+						}
+					}
+				});
+			}
+			
+			if (cajaAhorro.isSelected()) {
+				
+			}
+			
+		}
+		}
+		
+		
+		
 	}
 	
-	private boolean validaSaldoPositivo(Cliente u) {
+	private boolean validaSaldoPositivo() {
 		if (Double.parseDouble(monto.getText()) > 0) {
 			return true;
 		}
@@ -429,7 +520,7 @@ public class Menu extends JFrame  {
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
 							try {
-								if (validaSaldoPositivo(u)) {
+								if (validaSaldoPositivo()) {
 									if (Double.parseDouble(monto.getText()) > u.getCc().getSaldo()) {
 										JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
 									}
@@ -467,7 +558,7 @@ public class Menu extends JFrame  {
 						public void actionPerformed(ActionEvent arg0) {
 							try {
 								
-								if (validaSaldoPositivo(u)) {
+								if (validaSaldoPositivo()) {
 									
 									if (Double.parseDouble(monto.getText()) > u.getCa().getSaldo()) {
 										JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
@@ -519,7 +610,6 @@ public class Menu extends JFrame  {
 			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 			
@@ -528,6 +618,9 @@ public class Menu extends JFrame  {
 		
 		
 	}
+
+	
+
 	
 
 	

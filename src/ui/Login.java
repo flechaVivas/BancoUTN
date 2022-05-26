@@ -172,7 +172,7 @@ public class Login extends JFrame {
 								
 								panel.setVisible(false);
 								dispose(); // Destroys JFrame object
-								new Menu().start(u);
+								new Menu(u).start();
 								
 							}
 						}
