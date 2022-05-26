@@ -290,6 +290,26 @@ public class Menu extends JFrame implements ActionListener  {
 			monto.setText("0");
 			
 		}
+		
+		if (e.getSource().equals(botonExt)) {
+			limpiarComponentes();
+			ingresaMonto.setText("Ingrese monto a extrer: $");
+			botonTransferir.setText("Extraer");
+			ingresaMonto.setVisible(true);
+			monto.setVisible(true);
+			botonTransferir.setVisible(true);
+			monto.setText("0");
+		}
+		
+		if (e.getSource().equals(botonDep)) {
+			limpiarComponentes();
+			ingresaMonto.setText("Ingrese monto a depositar: $");
+			botonTransferir.setText("Depositar");
+			ingresaMonto.setVisible(true);
+			monto.setVisible(true);
+			botonTransferir.setVisible(true);
+			monto.setText("0");
+		}
 			
 			
 		if (e.getSource().equals(botonTransferir)) {
@@ -342,21 +362,62 @@ public class Menu extends JFrame implements ActionListener  {
 				/*  EXTRAER EN CUENTA CORRIENTE    */
 				
 				if (botonExt.isSelected()) {
-					
-					System.out.println("hey");
-					
-					
+					try {
+						if (validaSaldoPositivo()) {
+							if (Double.parseDouble(monto.getText()) > u.getCc().getSaldo()) {
+								JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
+							}
+							else if (JOptionPane.showConfirmDialog(null, "¿Desea extraer $"+monto.getText()+ "?") == 0) {
+								
+								u.getCc().setSaldo(u.getCc().getSaldo() - Double.parseDouble(monto.getText()));
+								JOptionPane.showMessageDialog(null, "Extraccion exitosa, retire su dinero");
+								monto.setText("0");
+								
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Operacion cancelada");
+								monto.setText("0");
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+						}
+					} 
+					catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+					}
 				}
 				
 				/*  DEPOSITAR EN CUENTA CORRIENTE     */
 				
 				if (botonDep.isSelected()) {
 					
+					try {
+						
+						if (validaSaldoPositivo()) {
+								
+							if (JOptionPane.showConfirmDialog(null, "¿Desea depositar $"+monto.getText()+ "?") == 0) {
+								
+								u.getCc().setSaldo(u.getCc().getSaldo() + Double.parseDouble(monto.getText()));
+								JOptionPane.showMessageDialog(null, "Dinero depositado con exito");
+								monto.setText("0");
+								
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Operacion cancelada");
+								monto.setText("0");
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+						}
+					} 
+					catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+					}
+					
 				}
-				
-				
-				
-			}
+		}
 			
 			
 		/*  CAJA DE AHORRO   */
@@ -393,216 +454,72 @@ public class Menu extends JFrame implements ActionListener  {
 				}
 			}
 			
+			/*  EXTRAER EN CAJA DE AHORRO     */
+			
+			if (botonExt.isSelected()) {
+				try {
+					
+					if (validaSaldoPositivo()) {
+						
+						if (Double.parseDouble(monto.getText()) > u.getCa().getSaldo()) {
+							JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
+						}
+							
+						else if (JOptionPane.showConfirmDialog(null, "¿Desea extraer $"+monto.getText()+ "?") == 0) {
+							
+							u.getCa().setSaldo(u.getCa().getSaldo() - Double.parseDouble(monto.getText()));
+							
+							JOptionPane.showMessageDialog(null, "Extraccion exitosa, retire su dinero");
+							monto.setText("0");
+							
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Operacion cancelada");
+							monto.setText("0");
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+					}
+				} 
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+				}
+			}
+			
+			
+			/*  DEPOSITAR EN CAJA DE AHORRO     */
+			
+			if (botonDep.isSelected()) {
+				
+				try {
+					
+					if (validaSaldoPositivo()) {
+							
+						if (JOptionPane.showConfirmDialog(null, "¿Desea depositar $"+monto.getText()+ "?") == 0) {
+							
+							u.getCa().setSaldo(u.getCa().getSaldo() + Double.parseDouble(monto.getText()));
+							JOptionPane.showMessageDialog(null, "Dinero depositado con exito");
+							monto.setText("0");
+							
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Operacion cancelada");
+							monto.setText("0");
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+					}
+				} 
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
+				}
+				
+			}
+			
 			
 		}
-		
-		/*  EXTRAER EN CAJA DE AHORRO     */
-		
-		if (botonExt.isSelected()) {
-			
 		}
-		
-		/*  DEPOSITAR EN CAJA DE AHORRO     */
-		
-		if (botonDep.isSelected()) {
-			
-		}
-		
-		
 	}
-			
-}
-		
-		
-		
-		
-//		if (e.getSource().equals(botonExt)) {
-//			limpiarComponentes();
-//			
-//			ingresaMonto.setText("Ingrese monto a extraer:   $");
-//			botonTransferir.setText("Extraer");
-//			ingresaMonto.setVisible(true);
-//			monto.setVisible(true);
-//			botonTransferir.setVisible(true);
-//			
-//			if (cCorriente.isSelected()) {
-//				botonTransferir.addActionListener(new ActionListener() {
-//					@Override
-//					public void actionPerformed(ActionEvent arg0) {
-//						try {
-//							if (validaSaldoPositivo()) {
-//								if (Double.parseDouble(monto.getText()) > u.getCc().getSaldo()) {
-//									JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
-//								}
-//								else if (JOptionPane.showConfirmDialog(null, "¿Desea extraer $"+monto.getText()+ "?") == 0) {
-//									
-//									u.getCc().setSaldo(u.getCc().getSaldo() - Double.parseDouble(monto.getText()));
-//									JOptionPane.showMessageDialog(null, "Dinero extraído con exito");
-//									monto.setText("0");
-//									
-//								}
-//								else {
-//									JOptionPane.showMessageDialog(null, "Operacion cancelada");
-//									monto.setText("0");
-//								}
-//							}
-//							else {
-//								JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-//							}
-//						} 
-//						catch (Exception e) {
-//							JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-//						}
-//					}
-//				});
-//			}
-//		}
-//		}
-//		
-//	}
-	
-	
-	
-	
-//	private void eventoExtraccion(Cliente u, String c) {
-//		
-//		botonExt.addMouseListener(new MouseListener() {
-//			
-//			@Override
-//			public void mouseClicked(MouseEvent arg0) {
-//				
-//				limpiarComponentes();
-//				
-//				ingresaMonto.setBounds(0,90,270,30);
-//				ingresaMonto.setText("Ingrese monto a extraer: $");
-//				ingresaMonto.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-//				ingresaMonto.setForeground(Color.WHITE);
-//				
-//				monto.setBounds(215, 90, 90, 30);
-//				monto.setText("0");
-//				
-//				botonTransferir.setText("Extraer");
-//				botonTransferir.setBounds(200, 140, 100, 30);
-//				
-//				
-//				if (c=="cc") {
-//					ingresaMonto.setVisible(true);
-//					monto.setVisible(true);
-//					botonTransferir.setVisible(true);
-//						
-//					botonTransferir.addActionListener(new ActionListener() {
-//						@Override
-//						public void actionPerformed(ActionEvent arg0) {
-//							try {
-//								if (validaSaldoPositivo()) {
-//									if (Double.parseDouble(monto.getText()) > u.getCc().getSaldo()) {
-//										JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
-//									}
-//									else if (JOptionPane.showConfirmDialog(null, "¿Desea extraer $"+monto.getText()+ "?") == 0) {
-//										
-//										u.getCc().setSaldo(u.getCc().getSaldo() - Double.parseDouble(monto.getText()));
-//										JOptionPane.showMessageDialog(null, "Dinero extraído con exito");
-//										monto.setText("0");
-//										
-//									}
-//									else {
-//										JOptionPane.showMessageDialog(null, "Operacion cancelada");
-//										monto.setText("0");
-//									}
-//								}
-//								else {
-//									JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-//								}
-//							} 
-//							catch (Exception e) {
-//								JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-//							}
-//						}
-//					});
-//				}
-//				
-//				if (c=="ca") {
-//					ingresaMonto.setVisible(true);
-//					monto.setVisible(true);
-//					botonTransferir.setVisible(true);
-//						
-//					botonTransferir.addActionListener(new ActionListener() {
-//						
-//						@Override
-//						public void actionPerformed(ActionEvent arg0) {
-//							try {
-//								
-//								if (validaSaldoPositivo()) {
-//									
-//									if (Double.parseDouble(monto.getText()) > u.getCa().getSaldo()) {
-//										JOptionPane.showMessageDialog(null, "Saldo insuficiente");	
-//									}
-//										
-//									else if (JOptionPane.showConfirmDialog(null, "¿Desea extraer $"+monto.getText()+ "?") == 0) {
-//										
-//										u.getCa().setSaldo(u.getCa().getSaldo() - Double.parseDouble(monto.getText()));
-//										JOptionPane.showMessageDialog(null, "Dinero extraído con exito");
-//										monto.setText("0");
-//										
-//									}
-//									else {
-//										JOptionPane.showMessageDialog(null, "Operacion cancelada");
-//										monto.setText("0");
-//									}
-//								}
-//								else {
-//									JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-//								}
-//							} 
-//							catch (Exception e) {
-//								JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
-//							}
-//						}
-//
-//						
-//					});
-//				}
-//				
-//				
-//			}
-//			
-//			@Override
-//			public void mouseReleased(MouseEvent arg0) {
-//				
-//			}
-//			
-//			@Override
-//			public void mousePressed(MouseEvent arg0) {
-//				
-//			}
-//			
-//			@Override
-//			public void mouseExited(MouseEvent arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseEntered(MouseEvent arg0) {
-//				
-//			}
-//			
-//			
-//		});
-//		
-//		
-//	}
-
-	
-
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
 }
