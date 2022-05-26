@@ -168,7 +168,6 @@ public class Menu extends JFrame implements ActionListener  {
 		botonExt.setVisible(false);
 		botonDep.setVisible(false);
 		
-		
 		botonSaldo.addActionListener(this);
 		botonTransf.addActionListener(this);
 		botonExt.addActionListener(this);
