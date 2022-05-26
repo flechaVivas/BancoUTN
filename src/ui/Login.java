@@ -24,6 +24,7 @@ public class Login extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	JPanel panel = new JPanel();
 	JLabel contenedorLogo = new JLabel();
 	JLabel usuario = new JLabel();
@@ -36,6 +37,8 @@ public class Login extends JFrame {
 	int cont = -1;
 	Cliente admin = new Cliente();
 	Cliente facundo = new Cliente();
+	Cliente userX = new Cliente();
+	
 	public Login() {
 		
 		definicionClientes();
@@ -52,7 +55,7 @@ public class Login extends JFrame {
 	private void definicionClientes() {
 		
 		facundo.setUser("facundo");
-		facundo.setPassword("Luisina05");
+		facundo.setPassword("1234");
 		CajaDeAhorro ca1 = new CajaDeAhorro();
 		ca1.setNroCuenta("11899212");
 		ca1.setSaldo(9000.50);
@@ -62,8 +65,8 @@ public class Login extends JFrame {
 		facundo.setCa(ca1);
 		facundo.setCc(cc1);
 	
-		admin.setUser("");
-		admin.setPassword("");
+		admin.setUser("admin");
+		admin.setPassword("admin");
 		CajaDeAhorro ca2 = new CajaDeAhorro();
 		ca2.setNroCuenta("8891262233");
 		ca2.setSaldo(189000.50);
@@ -73,15 +76,26 @@ public class Login extends JFrame {
 		admin.setCa(ca2);
 		admin.setCc(cc2);
 		
+		userX.setUser("user");
+		userX.setPassword("user");
+		CajaDeAhorro ca3 = new CajaDeAhorro();
+		ca3.setNroCuenta("000017123");
+		ca3.setSaldo(120600);
+		CuentaCorriente cc3 = new CuentaCorriente();
+		cc3.setNroCuenta("00015672");
+		cc3.setSaldo(14700);
+		userX.setCa(ca3);
+		userX.setCc(cc3);
+		
 		usuarios.add(facundo);
 		usuarios.add(admin);
+		usuarios.add(userX);
 	}
 
 	private void iniciarComponentes() {
 		
-//		panel.setBackground(new Color(122,108,240)); 
-		panel.setBackground(new Color(63,143,225)); 
-		
+//		panel.setBackground(new Color(63,143,225)); 
+		panel.setBackground(new Color(46,57,162)); 
 		
 		this.getContentPane().add(panel);
 		
@@ -98,7 +112,7 @@ public class Login extends JFrame {
 	
 		ImageIcon logo = new ImageIcon("src/logo-utn.png");
 		
-		contenedorLogo.setBounds(50, 10, 220,50);
+		contenedorLogo.setBounds(50, 15, 220,50);
 		
 		contenedorLogo.setIcon(new ImageIcon(logo.getImage().getScaledInstance(
 				contenedorLogo.getWidth(), contenedorLogo.getHeight(), Image.SCALE_SMOOTH)));
@@ -140,7 +154,6 @@ public class Login extends JFrame {
 		boton.setMnemonic('\n');
 		
 		panel.add(boton);
-
 		
 		saludo.setBounds(50, 305, 400, 30);
 		saludo.setFont(new Font("Times New Roman", Font.BOLD, 16));
@@ -165,20 +178,13 @@ public class Login extends JFrame {
 							u.setHabilitado(true);
 							
 							if (u.getHabilitado() == true) {
-								//Derivamos al menu
-//								System.out.println("ok");
-//								saludo.setText("Bienvenido, " + u.getUser());
-//								saludo.setForeground(Color.green);
-								
 								panel.setVisible(false);
 								dispose(); // Destroys JFrame object
 								new Menu(u).start();
-								
 							}
 						}
 						
 						else {
-							
 							if(u.getHabilitado() == false) {
 								
 								saludo.setText("Usuario y/o contraseña inválidos");
@@ -190,25 +196,15 @@ public class Login extends JFrame {
 									user.setEnabled(false);
 									passwd.setEnabled(false);
 									boton.setEnabled(false);
-									
 								}
-								
 							}
 						}
-						
 					}
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
-				
-				
-				
-					
 			}
 		});
 	}
 
-	
-	
-	
 }

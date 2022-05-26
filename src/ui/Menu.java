@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -24,13 +22,16 @@ import entities.*;
 
 public class Menu extends JFrame implements ActionListener  {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	Cliente u;
 	
 	public Cliente getU() {
 		return u;
 	}
-
-
 	public void setU(Cliente u) {
 		this.u = u;
 	}
@@ -39,27 +40,28 @@ public class Menu extends JFrame implements ActionListener  {
 	JPanel panelMenu = new JPanel();
 	
 	JPanel panelIzq = new JPanel();
-	JLabel contenedorLogo = new JLabel();
-	JRadioButton cajaAhorro = new JRadioButton();
-	JRadioButton cCorriente = new JRadioButton();
-	ButtonGroup grupoRadioBotones = new ButtonGroup();
-	ButtonGroup grupoOpciones = new ButtonGroup();
 	
-	JRadioButton botonSaldo = new JRadioButton();
-	JRadioButton botonTransf = new JRadioButton();
-	JRadioButton botonExt = new JRadioButton();
-	JRadioButton botonDep = new JRadioButton();
+		JLabel contenedorLogo = new JLabel();
+		JRadioButton cajaAhorro = new JRadioButton();
+		JRadioButton cCorriente = new JRadioButton();
+		ButtonGroup grupoRadioBotones = new ButtonGroup();
+		ButtonGroup grupoOpciones = new ButtonGroup();
 	
-	JButton salir = new JButton();
-	JButton cs = new JButton();
+		JRadioButton botonSaldo = new JRadioButton();
+		JRadioButton botonTransf = new JRadioButton();
+		JRadioButton botonExt = new JRadioButton();
+		JRadioButton botonDep = new JRadioButton();
 	
+		JButton salir = new JButton();
+		JButton cs = new JButton();
 	
 	JPanel panelDer = new JPanel();
-	JLabel infoCuenta = new JLabel();
-	JLabel informaSaldo = new JLabel();
-	JLabel ingresaMonto = new JLabel();
-	JTextField monto = new JTextField();
-	JButton botonTransferir = new JButton();
+	
+		JLabel infoCuenta = new JLabel();
+		JLabel informaSaldo = new JLabel();
+		JLabel ingresaMonto = new JLabel();
+		JTextField monto = new JTextField();
+		JButton botonTransferir = new JButton();
 	
 	public Menu(Cliente u) {
 		this.setU(u);
@@ -78,7 +80,8 @@ public class Menu extends JFrame implements ActionListener  {
 	
 	private void iniciarComponentes(Cliente u) {
 
-		panelMenu.setBackground(new Color(63,143,225)); 
+//		panelMenu.setBackground(new Color(63,143,225)); 
+		panelMenu.setBackground(new Color(46,57,162));
 		this.getContentPane().add(panelMenu);
 		panelMenu.setLayout(null); 
 		
@@ -91,7 +94,8 @@ public class Menu extends JFrame implements ActionListener  {
 		
 		panelDer.setLayout(null);
 		panelDer.setBounds(300, 0, 650, 800);
-		panelDer.setBackground(new Color(63,143,225));
+//		panelDer.setBackground(new Color(63,143,225));
+		panelDer.setBackground(new Color(46,57,162));
 		panelMenu.add(panelDer);
 		
 		colocarLogo();
@@ -181,8 +185,10 @@ public class Menu extends JFrame implements ActionListener  {
 	
 	private void colocarDatosCuenta(Cliente u, String c) {
 		
-		infoCuenta.setBounds(20, 15, 500, 30);
+		infoCuenta.setBounds(0, 15, 500, 30);
 		infoCuenta.setForeground(Color.white);
+		infoCuenta.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		
 		
 		if (c=="cc") {
 			infoCuenta.setText("INFORMACION DE LA CUENTA N° " + u.getCc().getNroCuenta());
@@ -260,17 +266,16 @@ public class Menu extends JFrame implements ActionListener  {
 		
 		if (e.getSource().equals(botonSaldo)) {
 			limpiarComponentes();
+			informaSaldo.setBounds(15, 90, 400, 20);
+			informaSaldo.setForeground(Color.WHITE);
+			informaSaldo.setVisible(true);
+			informaSaldo.setFont(new Font("Times New Roman", Font.BOLD, 17));
+			
 			if (cCorriente.isSelected()) {
-				informaSaldo.setBounds(60, 90, 400, 20);
-				informaSaldo.setForeground(Color.WHITE);
-				informaSaldo.setText("Su saldo actual es: "+u.getCc().getSaldo());
-				informaSaldo.setVisible(true);
+				informaSaldo.setText("Su saldo actual es: $"+u.getCc().getSaldo());
 			}
 			if (cajaAhorro.isSelected()) {
-				informaSaldo.setBounds(60, 90, 400, 20);
-				informaSaldo.setForeground(Color.WHITE);
-				informaSaldo.setText("Su saldo actual es: "+u.getCa().getSaldo());
-				informaSaldo.setVisible(true);
+				informaSaldo.setText("Su saldo actual es: $"+u.getCa().getSaldo());
 			}
 		}
 		
@@ -278,7 +283,7 @@ public class Menu extends JFrame implements ActionListener  {
 		ingresaMonto.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		ingresaMonto.setForeground(Color.WHITE);
 		monto.setBounds(215, 90, 90, 30);
-		botonTransferir.setBounds(200, 140, 100, 30);
+		botonTransferir.setBounds(202, 140, 110, 30);
 		
 		if (e.getSource().equals(botonTransf)) {
 			limpiarComponentes();
@@ -354,7 +359,7 @@ public class Menu extends JFrame implements ActionListener  {
 						}
 					} 
 					catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage());
+						JOptionPane.showMessageDialog(null, "Debe ingresar un monto valido");
 					}
 				}
 			
