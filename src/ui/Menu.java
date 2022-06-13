@@ -332,8 +332,6 @@ public class Menu extends JFrame implements ActionListener  {
 				if(botonTransf.isSelected()) {
 					try {
 						
-						System.out.println(monto.getText());
-						
 						if (validaSaldoPositivo()) {
 							
 							if (Double.parseDouble(monto.getText()) > u.getCc().getSaldo()) {
